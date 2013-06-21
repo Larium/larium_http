@@ -6,7 +6,7 @@ namespace Larium\Http;
 
 class Params implements \ArrayAccess, \Countable
 {
-    private $storage;
+    protected $storage;
 
     public function __construct(array $storage = array())
     {
@@ -19,6 +19,16 @@ class Params implements \ArrayAccess, \Countable
     }
 
     public function __set($name, $value)
+    {
+        $this->offsetSet($name, $value);
+    }
+
+    public function get($name)
+    {
+        return $this->offsetGet($name);
+    }
+
+    public function set($name, $value)
     {
         $this->offsetSet($name, $value);
     }

@@ -60,6 +60,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
         
         $this->assertEquals('bar', $params->k->foo);
         $this->assertEquals('bar', $params['k']['foo']);
+        $this->assertEquals('bar', $params->get('k')->get('foo'));
 
         $this->assertNull($params->bar);
     }
