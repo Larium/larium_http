@@ -75,5 +75,9 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
         $params->add(array('k'=>'v'));
         
         $this->assertEquals(2, $params->count());
+
+        $params->add(array('nest'=>array('k'=>'v')));
+        
+        $this->assertEquals(3, $params->count());
     }
 }
