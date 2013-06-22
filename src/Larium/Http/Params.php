@@ -4,7 +4,7 @@
 
 namespace Larium\Http;
 
-class Params implements \ArrayAccess, \Countable
+class Params implements \ArrayAccess, \Iterator, \Countable
 {
     protected $storage;
 
