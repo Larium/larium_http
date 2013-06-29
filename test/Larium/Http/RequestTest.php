@@ -9,7 +9,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGetPath()
     {
         $server = array(
-            'SERVER_NAME' => 'demo.local',
+            'HTTP_HOST' => 'demo.local',
             'SERVER_ADDR' => '127.0.0.1',
             'SERVER_PORT' => 80,
             'REMOTE_ADDR' => '127.0.0.1',
@@ -28,6 +28,37 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request = new Request(null, array(), array(), array(), array(), $server);
 
         $this->assertEquals('/show/1', $request->getPath());
+        
+        $this->assertEquals('/php/', $request->getBasePath());
+        
+        $this->assertEquals('http://demo.local/php/show/1?page=1&test=2', $request->getUrl());
+
+
+        $server = array(
+            'HTTP_HOST' => 'demo.local',
+            'SERVER_ADDR' => '127.0.0.1',
+            'SERVER_PORT' => 80,
+            'REMOTE_ADDR' => '127.0.0.1',
+            'DOCUMENT_ROOT' => '/srv/http/test',
+            'SCRIPT_FILENAME' => '/srv/http/test/index.php',
+            'REDIRECT_QUERY_STRING' => 'page=1&test=2',
+            'GATEWAY_INTERFACE' => 'CGI/1.1',
+            'SERVER_PROTOCOL' => 'HTTP/1.1',
+            'REQUEST_METHOD' => 'GET',
+            'QUERY_STRING' => 'page=1&test=2',
+            'REQUEST_URI' => '/artist/show/id/1?page=1&test=2',
+            'SCRIPT_NAME' => '/index.php',
+            'PHP_SELF' => '/index.php'
+        );
+
+        $request = new Request(null, array(), array(), array(), array(), $server);
+
+        $this->assertEquals('/artist/show/id/1', $request->getPath());
+        
+        $this->assertEquals('/', $request->getBasePath());
+        
+        $this->assertEquals('http://demo.local/artist/show/id/1?page=1&test=2', $request->getUrl());
+
     }
 
     /**
@@ -46,7 +77,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($ajax, $request->isAjax());
         $this->assertEquals($protocol, $request->getProtocol());
         $this->assertEquals($query_string, $request->getQueryString());
-        $this->assertEquals($query_array, $request->getQueryArray()->toArray());
+        $this->assertEquals($query_array, $request->getQuery()->toArray());
         $this->assertEquals($is_post, $request->isPost());
     }
 
