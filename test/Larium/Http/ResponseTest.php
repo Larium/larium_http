@@ -22,6 +22,6 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
         $response->setStatus('404');
 
-        $this->assertEquals('HTTP/1.1 404 Not Found', $response->getStatus());
+        $this->assertEquals('HTTP/1.1 404 Not Found', $response->getStatusText());
     }
 }

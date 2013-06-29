@@ -4,11 +4,8 @@
 
 namespace Larium\Http;
 
-class Response
+class Response implements ResponseInterface
 {
-    const PROTOCOL_1_1 = "HTTP/1.1";
-    const PROTOCOL_1_0 = "HTTP/1.0";
-
     protected $status_codes = array(
         100 => 'Continue',
         101 => 'Switching Protocols',
@@ -75,11 +72,15 @@ class Response
 
     protected $status;
 
+    protected $cookies=array();
+    
+    protected $deleted_cookies=array();
+
     public function __construct(
         $body = null,
         $status = '200',
         array $headers=array(),
-        $protocol = self::PROTOCOL_1_1
+        $protocol = ResponseInterface::PROTOCOL_1_1
     ) {
         $this->protocol = $protocol;
         
@@ -103,6 +104,8 @@ class Response
     public function addHeader($name, $value)
     {
         $this->headers->set($name, $value);
+
+        return $this;
     }
 
     public function removeHeader($name)
@@ -113,6 +116,8 @@ class Response
     public function setBody($value)
     {
         $this->body = $value;
+
+        return $this;
     }
 
     public function getBody()
@@ -127,9 +132,16 @@ class Response
         } else {
             throw new \InvalidArgumentException(sprintf('Not a valid status code %s', $code));
         }
+
+        return $this;
     }
 
     public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function getStatusText()
     {
         return sprintf(
             '%s %s %s', 
@@ -152,6 +164,20 @@ class Response
         return $this->getBody();
     }
 
+    public function setCookie(Cookie $cookies)
+    {
+        $this->cookies[$cookie->getName()] = $cookie;
+
+        return $this;
+    }
+
+    public function deleteCookie($name)
+    {
+        $this->deleted_cookies[] = $name;
+
+        return $this;
+    }
+
     protected function send_headers()
     {
         
@@ -159,10 +185,29 @@ class Response
             return;
         }
 
-        header($this->getStatus());
+        header($this->getStatusText());
 
+        // Send headers
         foreach($this->headers as $name=>$value) {
             header(sprintf('%s: %s', $name, $value));
+        }
+
+        //Delete cookies
+        foreach ($this->deleted_cookies as $d) {
+            setcookie($d, "", time() - 3600); 
+        }
+        
+        // Send cookies
+        foreach ($this->cookies as $cookie) {
+            setcookie(
+                $cookie->getName(),
+                $cookie->getValue(),
+                $cookie->getExpire(),
+                $cookie->getPath(),
+                $cookie->getDomain(),
+                $cookie->isSecure(),
+                $cookie->httpOnly()
+            );
         }
     }
 }
