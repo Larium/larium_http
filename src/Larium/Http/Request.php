@@ -4,7 +4,7 @@
 
 namespace Larium\Http;
 
-class Request
+class Request implements RequestInterface
 {
     const GET_METHOD     = 'GET';
     const POST_METHOD    = 'POST';
@@ -83,8 +83,8 @@ class Request
         $this->headers  = new Params($this->server->getHeaders());
         $this->scheme   = $this->server->getScheme();
 
-        $this->set_basepath();
         $this->set_scriptfile();
+        $this->set_basepath();
         $this->set_path();
 
     }
@@ -102,8 +102,8 @@ class Request
 
     protected function set_basepath()
     {
-        $this->basepath = preg_replace(
-            '/[\w\-]+\.php/',
+        $this->basepath = str_replace(
+            $this->script_file,
             '',
             $this->server['SCRIPT_NAME']
         );
@@ -113,14 +113,14 @@ class Request
     {
         preg_match('/[\w\-]+\.php/', $this->server['SCRIPT_NAME'], $m);
         if (!empty($m)) {
-            $this->script_file =$m[0];
+            $this->script_file = $m[0];
         }
     }
 
     protected function set_path()
     {
         $request_uri = $this->server['REQUEST_URI'];
-        $basepath = $this->basepath;
+        $basepath = $this->basepath == '/' ? '' : $this->basepath;
 
         $find = array(
             $this->server['SCRIPT_NAME'], 
@@ -141,6 +141,11 @@ class Request
         return $this->path;
     }
 
+    public function getBasePath()
+    {
+        return $this->basepath;
+    }
+
     public function getMethod()
     {
         return $this->method; 
@@ -156,6 +161,15 @@ class Request
         return $this->headers['Host'];
     }
 
+    public function getFullHost()
+    {
+        $port = $this->getPort()==80 || $this->getPort()==443
+            ? null
+            : ":".$this->getPort();
+
+        return $this->getScheme() . '://' . $this->getHost() . $port;
+    }
+
     public function getPort()
     {
         return $this->server['SERVER_PORT'];
@@ -164,6 +178,14 @@ class Request
     public function getReferer()
     {
         return $this->headers['Referer'];
+    }
+
+    public function getUrl()
+    {
+        return $this->getFullHost() 
+            . ($this->basepath ? rtrim($this->basepath, '/') : null)
+            . ($this->path ?: null)
+            . ($this->getQueryString() ? "?".$this->getQueryString() : null);
     }
 
     /**
@@ -195,7 +217,7 @@ class Request
         return $this->server['QUERY_STRING'];
     }
 
-    public function getQueryArray()
+    public function getQuery()
     {
         return $this->query; 
     }
@@ -221,7 +243,6 @@ class Request
             )
         );
     }
-
 
     protected function parse_uri($uri)
     {
