@@ -210,4 +210,9 @@ class Response implements ResponseInterface
             );
         }
     }
+    
+    public function __toString()
+    {
+        return $this->send();
+    }
 }
