@@ -90,7 +90,7 @@ class MysqlSessionHandler implements SessionHandlerInterface
 
         if ($content) {
             $data = $this->options['data'];
-            return  base64_decode($content[$data]);
+            return base64_decode($content[$data]);
         } else {
 
             return '';
