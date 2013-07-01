@@ -4,6 +4,8 @@
 
 namespace Larium\Http;
 
+use Larium\Http\Session\SessionInterface;
+
 class Request implements RequestInterface
 {
     const GET_METHOD     = 'GET';
@@ -56,13 +58,19 @@ class Request implements RequestInterface
     protected $scheme;
 
     protected $script_file;
+
+    /**
+     * @var Larium\Http\Session\Session
+     * @access protected
+     */
+    protected $session;
     
     /* -(  Initialize  )---------------------------------------------------- */
 
     public function __construct(
         $uri=null,
+        array $get=array(),        
         array $post=array(),
-        array $get=array(),
         array $cookies=array(),
         array $files = array(),
         array $server = array()
@@ -224,12 +232,27 @@ class Request implements RequestInterface
 
     public function getPost()
     {
-        return $this->post; 
+        return $this->post;
     }
 
     public function getFiles()
     {
         return $this->files;
+    }
+
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    public function setSession(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
+    public function getSession()
+    {
+        return $this->session;
     }
 
     public function isPost()

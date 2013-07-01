@@ -33,6 +33,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         
         $this->assertEquals('http://demo.local/php/show/1?page=1&test=2', $request->getUrl());
 
+        $this->assertEquals('demo.local', $request->getHeaders()->get('Host'));
+
 
         $server = array(
             'HTTP_HOST' => 'demo.local',
