@@ -120,10 +120,6 @@ class Params implements \ArrayAccess, \Iterator, \Countable
         $value = $this->offsetExists($offset) 
             ? $this->storage[$offset] 
             : null;
-        
-        if (is_array($value)) {
-            return new self($value);
-        }
 
         return $value;
     }

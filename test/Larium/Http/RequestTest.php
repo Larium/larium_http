@@ -79,7 +79,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($ajax, $request->isAjax());
         $this->assertEquals($protocol, $request->getProtocol());
         $this->assertEquals($query_string, $request->getQueryString());
-        $this->assertEquals($query_array, $request->getQuery()->toArray());
+        $this->assertEquals($query_array, $request->getQuery());
         $this->assertEquals($is_post, $request->isPost());
     }
 

@@ -227,17 +227,22 @@ class Request implements RequestInterface
 
     public function getQuery()
     {
-        return $this->query; 
+        return $this->query->toArray();
     }
 
     public function getPost()
     {
-        return $this->post;
+        return $this->post->toArray();
     }
 
     public function getFiles()
     {
-        return $this->files;
+        return $this->files->toArray();
+    }
+
+    public function getCookies()
+    {
+        return $this->cookies->toArray();
     }
 
     public function getHeaders()
