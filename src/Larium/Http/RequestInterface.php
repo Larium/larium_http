@@ -6,6 +6,11 @@ namespace Larium\Http;
 
 interface RequestInterface
 {
+    const GET_METHOD     = 'GET';
+    const POST_METHOD    = 'POST';
+    const PUT_METHOD     = 'PUT';
+    const DELETE_METHOD  = 'DELETE';
+
     public function getPath();
     
     public function getBasePath();

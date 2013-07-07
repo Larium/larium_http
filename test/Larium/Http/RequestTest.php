@@ -115,6 +115,32 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 array('foo'=>'bar'),
                 false
             )
-        );       
+        ); 
+    }
+
+    public function testRequestPostMethod()
+    {
+        $url = 'http://www.example.com/show/1';
+        $request = new Request($url, array(), array('foo'=>'bar'));
+
+        $this->assertEquals(RequestInterface::POST_METHOD, $request->getMethod());
+    }
+    
+    public function testRequestPostMethodWithFiles()
+    {
+        $files = array(
+            'file' => array(
+                'name' => 'foo',
+                'tmp_name' => '/tmp/phpXdresd',
+                'type' => 'image/jpeg',
+                'error' => 0,
+                'size' => '1024'
+            )
+        );
+
+        $url = 'http://www.example.com/show/1';
+        $request = new Request($url, array(), array('foo'=>'bar'), array(), $files['file']);
+
+        $this->assertEquals(RequestInterface::POST_METHOD, $request->getMethod());       
     }
 }
