@@ -2,10 +2,28 @@
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
+/**
+ * Larium
+ *
+ * PHP version 5
+ *
+ * @package   Larium\Http
+ * @author    Andreas Kollaros <andreaskollaros@ymail.com>
+ * @copyright 2013 Andreas Kollaros
+ * @license   MIT {@link http://opensource.org/licenses/mit-license.php}
+ */
 namespace Larium\Http;
 
 use Larium\Http\Session\SessionInterface;
 
+/**
+ * Request class 
+ * 
+ * @uses    RequestInterface
+ * @package Larium\Http
+ * @author  Andreas Kollaros <andreaskollaros@ymail.com> 
+ * @license MIT {@link http://opensource.org/licenses/mit-license.php}
+ */
 class Request implements RequestInterface
 {
     /**
@@ -62,15 +80,27 @@ class Request implements RequestInterface
     
     /* -(  Initialize  )---------------------------------------------------- */
 
+    /**
+     * __construct 
+     * 
+     * @param string $uri 
+     * @param array  $get 
+     * @param array  $post 
+     * @param array  $cookies 
+     * @param array  $files 
+     * @param array  $server 
+     *
+     * @access public
+     * @return void
+     */
     public function __construct(
         $uri=null,
-        array $get=array(),        
+        array $get=array(),
         array $post=array(),
         array $cookies=array(),
         array $files = array(),
         array $server = array()
     ) {
-
         $this->query    = new Params($get);
 
         if (null !== $uri) {
@@ -94,8 +124,14 @@ class Request implements RequestInterface
     }
     
     /**
+     * Creates a Request instance from server variables. 
+     *
      * @link http://www.php.net/manual/en/reserved.variables.php  PHP global 
      * variables for server and cli request
+     *
+     * @static
+     * @access public
+     * @return Request
      */
     public static function createFromServer() {
 
@@ -134,7 +170,7 @@ class Request implements RequestInterface
         
         $this->path = str_replace($find, '', $request_uri);
 
-        $this->path = '/'.ltrim($this->path,'/');
+        $this->path = '/'.ltrim($this->path, '/');
     }
 
     protected function set_method()
@@ -210,6 +246,8 @@ class Request implements RequestInterface
     }
 
     /**
+     * Checks if request is an XHttpRequest.
+     *
      * @return boolean
      */
     public function isXHttpRequest()
