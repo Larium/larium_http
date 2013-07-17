@@ -61,7 +61,7 @@ class Response implements ResponseInterface
         506 => 'Variant Also Negotiates',
         507 => 'Insufficient Storage',
         509 => 'Bandwidth Limit Exceeded',
-        510 => 'Not Extended'       
+        510 => 'Not Extended'
     );
 
     protected $headers;
@@ -73,7 +73,7 @@ class Response implements ResponseInterface
     protected $status;
 
     protected $cookies=array();
-    
+
     protected $deleted_cookies=array();
 
     public function __construct(
@@ -83,9 +83,9 @@ class Response implements ResponseInterface
         $protocol = ResponseInterface::PROTOCOL_1_1
     ) {
         $this->protocol = $protocol;
-        
+
         $this->setBody($body);
- 
+
         $this->headers = new Params($headers);
 
         $this->setStatus($status);
@@ -144,16 +144,16 @@ class Response implements ResponseInterface
     public function getStatusText()
     {
         return sprintf(
-            '%s %s %s', 
-            $this->protocol, 
-            $this->status, 
+            '%s %s %s',
+            $this->protocol,
+            $this->status,
             $this->status_codes[$this->status]
         );
     }
 
     public function hasRediraction()
     {
-        return $this->headers->get('Location') 
+        return $this->headers->get('Location')
             || ($this->status > 300 && $this->status < 400);
     }
 
@@ -180,7 +180,7 @@ class Response implements ResponseInterface
 
     protected function send_headers()
     {
-        
+
         if (headers_sent()) {
             return;
         }
@@ -194,9 +194,9 @@ class Response implements ResponseInterface
 
         //Delete cookies
         foreach ($this->deleted_cookies as $d) {
-            setcookie($d, "", time() - 3600); 
+            setcookie($d, "", time() - 3600);
         }
-        
+
         // Send cookies
         foreach ($this->cookies as $cookie) {
             setcookie(
@@ -210,7 +210,7 @@ class Response implements ResponseInterface
             );
         }
     }
-    
+
     public function __toString()
     {
         return $this->send();

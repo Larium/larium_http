@@ -16,7 +16,7 @@ class Cookie
     protected $httponly;
 
     public function __construct(
-        $name, 
+        $name,
         $value=null,
         $expire=0,
         $path='/',

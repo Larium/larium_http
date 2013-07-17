@@ -45,7 +45,7 @@ class Params implements \ArrayAccess, \Iterator, \Countable
 
     /**
      * Returns an array copy of storage.
-     * 
+     *
      * @access public
      * @return array
      */
@@ -56,7 +56,7 @@ class Params implements \ArrayAccess, \Iterator, \Countable
 
     /**
      * alias of getArrayCopy
-     * 
+     *
      * @access public
      * @return void
      */
@@ -93,8 +93,8 @@ class Params implements \ArrayAccess, \Iterator, \Countable
     }
 
     /* -(  ArrayAccess  )--------------------------------------------------- */
-    
-    public function offsetSet($offset, $value) 
+
+    public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
             $this->storage[] = $value;
@@ -102,12 +102,12 @@ class Params implements \ArrayAccess, \Iterator, \Countable
             $this->storage[$offset] = $value;
         }
     }
-    
-    public function offsetExists($offset) 
+
+    public function offsetExists($offset)
     {
         return array_key_exists($offset, $this->storage);
     }
-    
+
     public function offsetUnset($offset) {
 
         if ($this->offsetExists($offset)) {
@@ -115,15 +115,15 @@ class Params implements \ArrayAccess, \Iterator, \Countable
         }
     }
 
-    public function offsetGet($offset) 
+    public function offsetGet($offset)
     {
-        $value = $this->offsetExists($offset) 
-            ? $this->storage[$offset] 
+        $value = $this->offsetExists($offset)
+            ? $this->storage[$offset]
             : null;
 
         return $value;
     }
-    
+
     /* -( Countable ) ------------------------------------------------------ */
 
     public function count()

@@ -17,11 +17,11 @@ namespace Larium\Http;
 use Larium\Http\Session\SessionInterface;
 
 /**
- * Request class 
- * 
+ * Request class
+ *
  * @uses    RequestInterface
  * @package Larium\Http
- * @author  Andreas Kollaros <andreaskollaros@ymail.com> 
+ * @author  Andreas Kollaros <andreaskollaros@ymail.com>
  * @license MIT {@link http://opensource.org/licenses/mit-license.php}
  */
 class Request implements RequestInterface
@@ -63,7 +63,7 @@ class Request implements RequestInterface
     protected $headers;
 
     protected $path;
-    
+
     protected $basepath;
 
     protected $method = self::GET_METHOD;
@@ -77,18 +77,18 @@ class Request implements RequestInterface
      * @access protected
      */
     protected $session;
-    
+
     /* -(  Initialize  )---------------------------------------------------- */
 
     /**
-     * __construct 
-     * 
-     * @param string $uri 
-     * @param array  $get 
-     * @param array  $post 
-     * @param array  $cookies 
-     * @param array  $files 
-     * @param array  $server 
+     * __construct
+     *
+     * @param string $uri
+     * @param array  $get
+     * @param array  $post
+     * @param array  $cookies
+     * @param array  $files
+     * @param array  $server
      *
      * @access public
      * @return void
@@ -105,13 +105,13 @@ class Request implements RequestInterface
 
         if (null !== $uri) {
             $server = array_merge($server, $this->parse_uri($uri));
-        } 
-        
+        }
+
         $this->server   = new ServerParams($server);
         $this->post     = new Params($post);
         $this->cookies  = new Params($cookies);
         $this->files    = new Params($files);
-        
+
         $this->set_method();
 
         $this->headers  = new Params($this->server->getHeaders());
@@ -122,11 +122,11 @@ class Request implements RequestInterface
         $this->set_path();
 
     }
-    
+
     /**
-     * Creates a Request instance from server variables. 
+     * Creates a Request instance from server variables.
      *
-     * @link http://www.php.net/manual/en/reserved.variables.php  PHP global 
+     * @link http://www.php.net/manual/en/reserved.variables.php  PHP global
      * variables for server and cli request
      *
      * @static
@@ -163,11 +163,11 @@ class Request implements RequestInterface
         $basepath = $this->basepath == '/' ? '' : $this->basepath;
 
         $find = array(
-            $this->server['SCRIPT_NAME'], 
-            $basepath, 
+            $this->server['SCRIPT_NAME'],
+            $basepath,
             '?'.$this->server['QUERY_STRING']
         );
-        
+
         $this->path = str_replace($find, '', $request_uri);
 
         $this->path = '/'.ltrim($this->path, '/');
@@ -175,8 +175,8 @@ class Request implements RequestInterface
 
     protected function set_method()
     {
-        if ($this->post->count() != 0 
-            || $this->files->count != 0 
+        if (   $this->post->count() != 0
+            || $this->files->count != 0
             || $this->server->get('Content-Type') == 'application/x-www-form-urlencoded'
             || strpos($this->server->get('Content-Type'), 'multipart/form-data') !== false
         ) {
@@ -186,7 +186,7 @@ class Request implements RequestInterface
                 $this->method = $this->server['REQUEST_METHOD'];
             } else {
                 $this->method = RequestInterface::GET_METHOD;
-            } 
+            }
         }
     }
 
@@ -205,7 +205,7 @@ class Request implements RequestInterface
 
     public function getMethod()
     {
-        return $this->method; 
+        return $this->method;
     }
 
     public function getScheme()
@@ -239,7 +239,7 @@ class Request implements RequestInterface
 
     public function getUrl()
     {
-        return $this->getFullHost() 
+        return $this->getFullHost()
             . ($this->basepath ? rtrim($this->basepath, '/') : null)
             . ($this->path ?: null)
             . ($this->getQueryString() ? "?".$this->getQueryString() : null);
@@ -252,13 +252,13 @@ class Request implements RequestInterface
      */
     public function isXHttpRequest()
     {
-        return $this->headers['X-Requested-With'] 
+        return $this->headers['X-Requested-With']
             && $this->headers['X-Requested-With'] == 'XMLHttpRequest';
     }
 
     /**
      * Alias of isXHttpRequest method
-     * 
+     *
      * @return boolean
      */
     public function isAjax()
@@ -337,7 +337,7 @@ class Request implements RequestInterface
         if (isset($components['port'])) {
             $server['SERVER_PORT'] = $components['port'];
         } else {
-            if (isset($components['scheme']) 
+            if (isset($components['scheme'])
                 && $components['scheme'] === 'https'
             ) {
                 $server['SERVER_PORT'] = 443;

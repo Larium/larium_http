@@ -5,7 +5,7 @@
 namespace Larium\Http;
 
 /**
- * ServerParams 
+ * ServerParams
  *
  * * PHP_SELF
  * * PHP_AUTH_DIGEST
@@ -45,7 +45,7 @@ namespace Larium\Http;
  * * HTTP_USER_AGENT (Header User-Agent:)
  * * CONTENT_TYPE (Header Content-Type:)
  * * CONTENT_LENGTH (Header Content-Length:)
- * 
+ *
  *
  * * REMOTE_ADDR (ip address of client)
  * * REMOTE_HOST (host name of client. Must set HostnameLookups On in Apache.)
@@ -58,7 +58,7 @@ namespace Larium\Http;
  *
  * @uses    Params
  * @package Larium\Http
- * @author  Andreas Kollaros <php@andreaskollaros.com> 
+ * @author  Andreas Kollaros <php@andreaskollaros.com>
  * @license MIT {@link http://opensource.org/licenses/mit-license.php}
  */
 class ServerParams extends Params
@@ -83,15 +83,15 @@ class ServerParams extends Params
         );
 
         $storage = array_replace($server, $storage);
-        
+
         parent::__construct($storage);
     }
     /**
      * Gets http headers with the canonical name.
      *
-     * PHP stores standard and custom header info in $_SERVER global by 
-     * prepending 'HTTP_' string. Also converts '-' char to '_' and 
-     * uppercase header name. 
+     * PHP stores standard and custom header info in $_SERVER global by
+     * prepending 'HTTP_' string. Also converts '-' char to '_' and
+     * uppercase header name.
      *
      * This converts names of header to canonical and return an array of them.
      *
@@ -109,7 +109,7 @@ class ServerParams extends Params
             } elseif($key == 'CONTENT_TYPE'
                   || $key == 'CONTENT_LENGTH'
                   || $key == 'CONTENT_MD5'
-            ) { 
+            ) {
                 $name = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', $key))));
                 $headers[$name] = $value;
             }
@@ -120,7 +120,7 @@ class ServerParams extends Params
 
     public function getScheme()
     {
-        return isset($this->storage['HTTPS']) 
+        return isset($this->storage['HTTPS'])
             || $this->storage['SERVER_PORT'] == 443
             ? 'https'
             : 'http';

@@ -12,13 +12,13 @@ interface RequestInterface
     const DELETE_METHOD  = 'DELETE';
 
     public function getPath();
-    
+
     public function getBasePath();
 
     public function getMethod();
 
     public function getUrl();
-    
+
     public function getQuery();
 
     public function getPost();
