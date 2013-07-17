@@ -28,9 +28,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request = new Request(null, array(), array(), array(), array(), $server);
 
         $this->assertEquals('/show/1', $request->getPath());
-        
+
         $this->assertEquals('/php/', $request->getBasePath());
-        
+
         $this->assertEquals('http://demo.local/php/show/1?page=1&test=2', $request->getUrl());
 
         $this->assertEquals('demo.local', $request->getHeaders()->get('Host'));
@@ -56,16 +56,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request = new Request(null, array(), array(), array(), array(), $server);
 
         $this->assertEquals('/artist/show/id/1', $request->getPath());
-        
+
         $this->assertEquals('/', $request->getBasePath());
-        
+
         $this->assertEquals('http://demo.local/artist/show/id/1?page=1&test=2', $request->getUrl());
 
     }
 
     /**
      * @dataProvider urls
-     */   
+     */
     public function testRequestFromUri($url, $path, $method, $scheme, $host, $port, $referer, $ajax, $protocol, $query_string, $query_array, $is_post)
     {
         $request = new Request($url);
@@ -115,7 +115,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 array('foo'=>'bar'),
                 false
             )
-        ); 
+        );
     }
 
     public function testRequestPostMethod()
@@ -125,7 +125,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(RequestInterface::POST_METHOD, $request->getMethod());
     }
-    
+
     public function testRequestPostMethodWithFiles()
     {
         $files = array(
@@ -141,6 +141,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $url = 'http://www.example.com/show/1';
         $request = new Request($url, array(), array('foo'=>'bar'), array(), $files['file']);
 
-        $this->assertEquals(RequestInterface::POST_METHOD, $request->getMethod());       
+        $this->assertEquals(RequestInterface::POST_METHOD, $request->getMethod());
     }
 }

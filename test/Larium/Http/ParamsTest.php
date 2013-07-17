@@ -13,10 +13,10 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
         $params = new Params($array);
 
         $this->assertEquals($array, $params->toArray(), '->toArray() should return the input array.');
-        
+
         $this->assertEquals($array, $params->getArrayCopy(), '->getArrayCopy() should return the input array.');
     }
-    
+
     public function testAdd()
     {
 
@@ -26,12 +26,12 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
         $params->add(array('k'=>'v'));
 
         $this->assertEquals(array('key'=>'value', 'k'=>'v'), $params->toArray());
-        
+
         $params->add(array('key'=>'new'));
-        
+
         $this->assertEquals(array('key'=>'new', 'k'=>'v'), $params->toArray());
     }
-    
+
     public function testRemove()
     {
 
@@ -41,12 +41,12 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
         $params->add(array('k'=>'v'));
 
         $this->assertEquals(array('key'=>'value', 'k'=>'v'), $params->toArray());
-        
+
         $params->remove('key');
-        
-        $this->assertEquals(array('k'=>'v'), $params->toArray());       
+
+        $this->assertEquals(array('k'=>'v'), $params->toArray());
     }
-    
+
     public function testGetValues()
     {
 
@@ -57,7 +57,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('value', $params->key);
         $this->assertEquals('value', $params['key']);
-        
+
         $this->assertEquals('bar', $params->k['foo']);
         $this->assertEquals('bar', $params['k']['foo']);
 
@@ -72,11 +72,11 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $params->count());
 
         $params->add(array('k'=>'v'));
-        
+
         $this->assertEquals(2, $params->count());
 
         $params->add(array('nest'=>array('k'=>'v')));
-        
+
         $this->assertEquals(3, $params->count());
     }
 }

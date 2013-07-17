@@ -18,13 +18,13 @@ class CookieTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidCookieName()
     {
-        
+
         $cookie = new Cookie('=a_cookie', 'value');
     }
 
     /**
      * @expectedException InvalidArgumentException
-     */   
+     */
     public function testInvalidCookieValue()
     {
         $cookie = new Cookie('a_cookie', ';value');
