@@ -111,9 +111,7 @@ class Request implements RequestInterface
         $this->post     = new Params($post);
         $this->cookies  = new Params($cookies);
         $this->files    = new Params($files);
-
-        $this->set_method();
-
+        $this->method   = $this->server['REQUEST_METHOD'];
         $this->headers  = new Params($this->server->getHeaders());
         $this->scheme   = $this->server->getScheme();
 
@@ -172,24 +170,6 @@ class Request implements RequestInterface
 
         $this->path = '/'.ltrim($this->path, '/');
     }
-
-    protected function set_method()
-    {
-        if (   $this->post->count() != 0
-            || $this->files->count != 0
-            || $this->server->get('Content-Type') == 'application/x-www-form-urlencoded'
-            || strpos($this->server->get('Content-Type'), 'multipart/form-data') !== false
-        ) {
-            $this->method = RequestInterface::POST_METHOD;
-        } else {
-            if ($this->server['REQUEST_METHOD']) {
-                $this->method = $this->server['REQUEST_METHOD'];
-            } else {
-                $this->method = RequestInterface::GET_METHOD;
-            }
-        }
-    }
-
 
     /* -(  Getters / Mutators  )--------------------------------------------- */
 
