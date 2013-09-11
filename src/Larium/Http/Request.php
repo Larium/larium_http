@@ -57,6 +57,12 @@ class Request implements RequestInterface
     protected $files;
 
     /**
+     * @var string|resource
+     * @access protected
+     */
+    protected $content;
+
+    /**
      * @var \Larium\Http\Params;
      * @access protected
      */
@@ -264,6 +270,19 @@ class Request implements RequestInterface
     public function getPost()
     {
         return $this->post->toArray();
+    }
+
+    public function getContent($as_resource = false)
+    {
+        if (null === $this->content) {
+            if (true === $as_resource) {
+                $this->content = fopen('php://input', 'rb');
+            } else {
+                $this->content = file_get_contents('php://input');
+            }
+        }
+
+        return $this->content;
     }
 
     public function getFiles()
