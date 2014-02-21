@@ -78,7 +78,7 @@ class Response implements ResponseInterface
 
     public function __construct(
         $body = null,
-        $status = '200',
+        $status = 200,
         array $headers=array(),
         $protocol = ResponseInterface::PROTOCOL_1_1
     ) {
@@ -88,7 +88,7 @@ class Response implements ResponseInterface
 
         $this->headers = new Params($headers);
 
-        $this->setStatus($status);
+        $this->setStatus($status ?: 200);
     }
 
     public function getProtocol()
@@ -130,7 +130,7 @@ class Response implements ResponseInterface
         if (array_key_exists($status, $this->status_codes)) {
             $this->status = $status;
         } else {
-            throw new \InvalidArgumentException(sprintf('Not a valid status code %s', $code));
+            throw new \InvalidArgumentException(sprintf('Not a valid status code %s', $status));
         }
 
         return $this;
@@ -151,7 +151,7 @@ class Response implements ResponseInterface
         );
     }
 
-    public function hasRediraction()
+    public function hasRedirection()
     {
         return $this->headers->get('Location')
             || ($this->status > 300 && $this->status < 400);
