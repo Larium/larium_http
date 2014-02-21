@@ -11,6 +11,7 @@ $classes = array(
     'Larium\\Http\\Request' => 'Larium/Http/Request.php',
     'Larium\\Http\\RequestInterface' => 'Larium/Http/RequestInterface.php',
     'Larium\\Http\\Response' => 'Larium/Http/Response.php',
+    'Larium\\Http\\RedirectResponse' => 'Larium/Http/RedirectResponse.php',
     'Larium\\Http\\ResponseInterface' => 'Larium/Http/ResponseInterface.php',
     'Larium\\Http\\Cookie' => 'Larium/Http/Cookie.php',
     'Larium\\Http\\Session\\Handler\\SessionHandlerInterface' => 'Larium/Http/Session/Handler/SessionHandlerInterface.php',
