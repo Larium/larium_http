@@ -19,7 +19,7 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
     /**
      * Creates a new Session instance.
      *
-     * @param Larium\Http\Session\Handler\SessionHandlerInterface | 
+     * @param Larium\Http\Session\Handler\SessionHandlerInterface |
      *        \SessionHandlerInterface $handler
      * @param array $params Cookie params and name for current session.
      *
@@ -28,9 +28,9 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
      */
     public function __construct($handler=null, array $params=array())
     {
-        if (null !== $handler 
-            && ($handler instanceof \SessionHandlerInterafce 
-            || $handler instanceof SessionHendlerInterface)
+        if (null !== $handler
+            && ($handler instanceof \SessionHandlerInterafce
+            || $handler instanceof SessionHandlerInterface)
         ) {
             $this->setSaveHandler($handler);
         }
@@ -62,7 +62,7 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
      */
     public function getName()
     {
-        return session_name();        
+        return session_name();
     }
 
     /**
@@ -79,7 +79,7 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
 
     /**
      * {@inheritdoc}
-     */   
+     */
     public function regenerateId($delete_old_sesssion=false)
     {
 
@@ -107,10 +107,10 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
 
     /**
      * {@inheritdoc}
-     */   
+     */
     public function get($name)
     {
-        return $this->__get($name); 
+        return $this->__get($name);
     }
 
     /**
@@ -118,7 +118,7 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
      */
     public function clear()
     {
-        $this->storage = array(); 
+        $this->storage = array();
     }
 
     /**
@@ -126,12 +126,12 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
      */
     public function delete($name)
     {
-        $this->offsetUnset($name); 
+        $this->offsetUnset($name);
     }
 
     /**
      * {@inheritdoc}
-     */   
+     */
     public function has($name)
     {
         return $this->__isset($name);
@@ -153,13 +153,13 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
     {
         return array_key_exists($name, $this->storage);
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function getCookieParams()
     {
-        return session_get_cookie_params();    
+        return session_get_cookie_params();
     }
 
     /**
@@ -197,10 +197,10 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
             $this->setName($this->params['session_name']);
 
             session_start();
-            
+
             $this->started = true;
             $this->storage = &$_SESSION;
-        } 
+        }
     }
 
     /**
@@ -219,7 +219,7 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
             array($this->handler, 'gc')
         );
     }
-    
+
     public function getSaveHandler()
     {
         return $this->handler;
@@ -232,13 +232,13 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
     {
         session_write_close();
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function getExpire()
     {
-        return session_cache_expire(); 
+        return session_cache_expire();
     }
 
     /**
@@ -246,7 +246,7 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
      */
     public function setExpire($new_cache_expire)
     {
-        session_cache_expire(new_cache_expire);
+        session_cache_expire($new_cache_expire);
     }
 
     /**
@@ -276,7 +276,7 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
      */
     public function decode($data)
     {
-       return session_decode($data); 
+       return session_decode($data);
     }
 
     /**
@@ -288,7 +288,7 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
     }
 
     /* -(  ArrayAccess  )--------------------------------------------------- */
-    
+
     public function offsetExists($name)
     {
         return $this->__isset($name);
@@ -298,17 +298,17 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
     {
         return $this->$name;
     }
-    
+
     public function offsetSet($name, $value)
     {
         $this->name = $value;
     }
-    
+
     public function offsetUnset($name)
     {
         unset($this->storage[$name]);
     }
- 
+
     /* -(  Countable  )---------------------------------------------------- */
 
     public function count()
