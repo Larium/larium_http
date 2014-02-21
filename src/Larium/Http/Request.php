@@ -78,6 +78,8 @@ class Request implements RequestInterface
 
     protected $script_file;
 
+    protected $accept;
+
     /**
      * @var Larium\Http\Session\Session
      * @access protected
@@ -101,9 +103,9 @@ class Request implements RequestInterface
      */
     public function __construct(
         $uri=null,
-        array $get=array(),
-        array $post=array(),
-        array $cookies=array(),
+        array $get = array(),
+        array $post = array(),
+        array $cookies = array(),
         array $files = array(),
         array $server = array()
     ) {
@@ -322,6 +324,29 @@ class Request implements RequestInterface
         );
     }
 
+    public function getAcceptHeader()
+    {
+        if (null === $this->accept) {
+            $this->accept = preg_split('/\s*(?:,*("[^"]+"),*|,*(\'[^\']+\'),*|,+)\s*/', $this->headers['Accept'], 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        }
+
+        return $this->accept;
+    }
+
+    public function accepts()
+    {
+        $accepts = $this->getAcceptHeader();
+
+        return isset($accepts[0]) ? $accepts[0] : '*/*';
+    }
+
+    public function canAccept($mime)
+    {
+        $mime = str_replace('/','\/', $mime);
+
+        return (boolean) preg_match("/{$mime}/", $this->headers['Accept']);
+    }
+
     protected function parse_uri($uri)
     {
         if (false === filter_var($uri, FILTER_VALIDATE_URL)) {
@@ -365,4 +390,5 @@ class Request implements RequestInterface
 
         return $server;
     }
+
 }
