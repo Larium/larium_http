@@ -14,7 +14,7 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
 
     protected $params = array();
 
-    protected $storage;
+    protected $storage = array();
 
     /**
      * Creates a new Session instance.
