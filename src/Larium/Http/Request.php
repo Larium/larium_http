@@ -80,6 +80,8 @@ class Request implements RequestInterface
 
     protected $accept;
 
+    protected $host;
+
     /**
      * @var Larium\Http\Session\Session
      * @access protected
@@ -203,7 +205,12 @@ class Request implements RequestInterface
 
     public function getHost()
     {
-        return $this->headers['Host'];
+        if (null === $this->host) {
+            // Strip port from host header value.
+            $this->host = strtolower(preg_replace('/:\d+$/', '', trim($this->headers['Host'])));
+        }
+
+        return $this->host;
     }
 
     public function getFullHost()
