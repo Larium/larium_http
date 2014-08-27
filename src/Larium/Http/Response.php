@@ -164,7 +164,7 @@ class Response implements ResponseInterface
         return $this->getBody();
     }
 
-    public function setCookie(Cookie $cookies)
+    public function setCookie(Cookie $cookie)
     {
         $this->cookies[$cookie->getName()] = $cookie;
 
