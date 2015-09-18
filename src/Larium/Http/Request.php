@@ -271,6 +271,11 @@ class Request implements RequestInterface
         return $this->server['QUERY_STRING'];
     }
 
+    public function getServer()
+    {
+        return $this->server;
+    }
+
     public function getQuery()
     {
         return $this->query->toArray();
