@@ -5,6 +5,7 @@
 namespace Larium\Http\Session;
 
 use Larium\Http\Session\Handler\FileSessionHandler;
+use Larium\Http\Session\Handler\SessionHandlerInterface;
 
 class Session implements SessionInterface, \ArrayAccess, \Countable
 {
@@ -184,7 +185,8 @@ class Session implements SessionInterface, \ArrayAccess, \Countable
      */
     public function start()
     {
-        if (!$this->getId() || $this->started == false) {
+        $id = $this->getId();
+        if (empty($id) || $this->started === false) {
 
             session_set_cookie_params(
                 $this->params['lifetime'],
