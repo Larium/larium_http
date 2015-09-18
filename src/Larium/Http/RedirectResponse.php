@@ -13,7 +13,7 @@ class RedirectResponse extends Response
         }
 
         parent::__construct(
-            null,
+            '',
             302,
             array(
                 'Location' => $url
