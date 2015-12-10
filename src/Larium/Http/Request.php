@@ -402,16 +402,4 @@ class Request implements RequestInterface
 
         return $server;
     }
-
-
-    /**
-     * Gets server.
-     *
-     * @access public
-     * @return mixed
-     */
-    public function getServer()
-    {
-        return $this->server;
-    }
 }
